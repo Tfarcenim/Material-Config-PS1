@@ -1,0 +1,9 @@
+accessWidener v1 named
+
+accessible field net/minecraft/world/item/ArmorMaterials durabilityMultiplier I
+accessible field net/minecraft/world/item/Tiers uses I
+accessible field net/minecraft/world/item/Tiers level I
+
+mutable field net/minecraft/world/item/ArmorMaterials durabilityMultiplier I
+mutable field net/minecraft/world/item/Tiers uses I
+mutable field net/minecraft/world/item/Tiers level I

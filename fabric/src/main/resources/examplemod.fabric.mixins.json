@@ -7,7 +7,7 @@
     "mixins": [
     ],
     "client": [
-        "MixinTitleScreen"
+      "tfar.materialconfigps1.mixin.MixinTitleScreen"
     ],
     "server": [
     ],
