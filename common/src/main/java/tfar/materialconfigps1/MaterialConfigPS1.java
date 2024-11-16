@@ -34,18 +34,18 @@ public class MaterialConfigPS1 {
     }
 
     static void configure() {
-        configureMaterial(ArmorMaterials.GOLD,ModConfig.Server.GOLD_ARMOR_DURABILITY_MULTIPLIER.get(),
+        configureMaterial(ArmorMaterials.GOLD, ModConfigs.Server.GOLD_ARMOR_DURABILITY_MULTIPLIER.get(),
                 (ArmorItem) Items.GOLDEN_BOOTS, (ArmorItem) Items.GOLDEN_LEGGINGS, (ArmorItem) Items.GOLDEN_CHESTPLATE, (ArmorItem) Items.GOLDEN_HELMET,
-                ModConfig.Server.GOLD_BOOTS_DEFENSE.get(),ModConfig.Server.GOLD_LEGGINGS_DEFENSE.get(),
-                ModConfig.Server.GOLD_CHESTPLATE_DEFENSE.get(), ModConfig.Server.GOLD_HELMET_DEFENSE.get());
+                ModConfigs.Server.GOLD_BOOTS_DEFENSE.get(), ModConfigs.Server.GOLD_LEGGINGS_DEFENSE.get(),
+                ModConfigs.Server.GOLD_CHESTPLATE_DEFENSE.get(), ModConfigs.Server.GOLD_HELMET_DEFENSE.get());
 
-        configureMaterial(ArmorMaterials.IRON,ModConfig.Server.IRON_ARMOR_DURABILITY_MULTIPLIER.get(),
+        configureMaterial(ArmorMaterials.IRON, ModConfigs.Server.IRON_ARMOR_DURABILITY_MULTIPLIER.get(),
                 (ArmorItem) Items.IRON_BOOTS, (ArmorItem) Items.IRON_LEGGINGS, (ArmorItem) Items.IRON_CHESTPLATE, (ArmorItem) Items.IRON_HELMET,
-                ModConfig.Server.IRON_BOOTS_DEFENSE.get(),ModConfig.Server.IRON_LEGGINGS_DEFENSE.get(),
-                ModConfig.Server.IRON_CHESTPLATE_DEFENSE.get(), ModConfig.Server.IRON_HELMET_DEFENSE.get());
+                ModConfigs.Server.IRON_BOOTS_DEFENSE.get(), ModConfigs.Server.IRON_LEGGINGS_DEFENSE.get(),
+                ModConfigs.Server.IRON_CHESTPLATE_DEFENSE.get(), ModConfigs.Server.IRON_HELMET_DEFENSE.get());
 
-        configureTier(Tiers.IRON,ModConfig.Server.IRON_TIER_DURABILITY.get(),(float) (double)ModConfig.Server.IRON_TIER_SPEED.get(),(AxeItem) Items.IRON_AXE,(HoeItem) Items.IRON_HOE,(PickaxeItem) Items.IRON_PICKAXE,(ShovelItem) Items.IRON_SHOVEL,(SwordItem) Items.IRON_SWORD);
-        configureTier(Tiers.GOLD,ModConfig.Server.GOLD_TIER_DURABILITY.get(),(float) (double)ModConfig.Server.GOLD_TIER_SPEED.get(),(AxeItem) Items.GOLDEN_AXE,(HoeItem) Items.GOLDEN_HOE,(PickaxeItem) Items.GOLDEN_PICKAXE,(ShovelItem) Items.GOLDEN_SHOVEL,(SwordItem) Items.GOLDEN_SWORD);
+        configureTier(Tiers.IRON, ModConfigs.Server.IRON_TIER_DURABILITY.get(),(float) (double) ModConfigs.Server.IRON_TIER_SPEED.get(),(float) (double)ModConfigs.Server.IRON_TIER_DAMAGE.get(),(AxeItem) Items.IRON_AXE,(HoeItem) Items.IRON_HOE,(PickaxeItem) Items.IRON_PICKAXE,(ShovelItem) Items.IRON_SHOVEL,(SwordItem) Items.IRON_SWORD);
+        configureTier(Tiers.GOLD, ModConfigs.Server.GOLD_TIER_DURABILITY.get(),(float) (double) ModConfigs.Server.GOLD_TIER_SPEED.get(),(float) (double)ModConfigs.Server.GOLD_TIER_DAMAGE.get(),(AxeItem) Items.GOLDEN_AXE,(HoeItem) Items.GOLDEN_HOE,(PickaxeItem) Items.GOLDEN_PICKAXE,(ShovelItem) Items.GOLDEN_SHOVEL,(SwordItem) Items.GOLDEN_SWORD);
 
         Tiers.GOLD.level = 3;
         Tiers.DIAMOND.level = 4;
@@ -79,11 +79,43 @@ public class MaterialConfigPS1 {
         armorItem.defaultModifiers = multimap;
     }
 
-    static void configureTier(Tiers tiers,int durability,float speed, AxeItem axe,HoeItem hoe,PickaxeItem pickaxe,ShovelItem shovel,
+    static void configureTier(Tiers tiers,int durability,float speed,float baseDamage, AxeItem axe,HoeItem hoe,PickaxeItem pickaxe,ShovelItem shovel,
                               SwordItem sword
                               ) {
         tiers.uses = axe.maxDamage = hoe.maxDamage = pickaxe.maxDamage = shovel.maxDamage = sword.maxDamage = durability;
         tiers.speed = axe.speed = hoe.speed = pickaxe.speed = shovel.speed = speed;
+        tiers.damage = baseDamage;
+        patchTool(axe,6);
+        patchTool(hoe,0);
+        patchTool(pickaxe, 1);
+        patchTool(shovel,1.5f);
+        patchSword(sword,3);
     }
 
+    static void patchTool(DiggerItem diggerItem, float damage) {
+        diggerItem.attackDamageBaseline = diggerItem.getTier().getAttackDamageBonus() + damage;
+        var map = diggerItem.defaultModifiers;
+        Multimap<Attribute, AttributeModifier> multimap = HashMultimap.create(map);
+        multimap.get(Attributes.ATTACK_DAMAGE).clear();
+        multimap.get(Attributes.ATTACK_DAMAGE).add(new AttributeModifier(Dummy.getAttack(), "Weapon modifier",diggerItem.attackDamageBaseline, AttributeModifier.Operation.ADDITION));
+        diggerItem.defaultModifiers = multimap;
+    }
+
+    static void patchSword(SwordItem diggerItem, float damage) {
+        diggerItem.attackDamage = diggerItem.getTier().getAttackDamageBonus() + damage;
+        var map = diggerItem.defaultModifiers;
+        Multimap<Attribute, AttributeModifier> multimap = HashMultimap.create(map);
+        multimap.get(Attributes.ATTACK_DAMAGE).clear();
+        multimap.get(Attributes.ATTACK_DAMAGE).add(new AttributeModifier(Dummy.getAttack(), "Weapon modifier",diggerItem.attackDamage, AttributeModifier.Operation.ADDITION));
+        diggerItem.defaultModifiers = multimap;
+    }
+
+    abstract static class Dummy extends Item {
+        public Dummy(Properties pProperties) {
+            super(pProperties);
+        }
+        static UUID getAttack() {
+            return BASE_ATTACK_DAMAGE_UUID;
+        }
+    }
 }

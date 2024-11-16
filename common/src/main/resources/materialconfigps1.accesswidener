@@ -26,3 +26,18 @@ mutable field net/minecraft/world/item/Tiers speed F
 
 accessible field net/minecraft/world/item/DiggerItem speed F
 mutable field net/minecraft/world/item/DiggerItem speed F
+
+accessible field net/minecraft/world/item/SwordItem defaultModifiers Lcom/google/common/collect/Multimap;
+mutable field net/minecraft/world/item/SwordItem defaultModifiers Lcom/google/common/collect/Multimap;
+
+accessible field net/minecraft/world/item/DiggerItem defaultModifiers Lcom/google/common/collect/Multimap;
+mutable field net/minecraft/world/item/DiggerItem defaultModifiers Lcom/google/common/collect/Multimap;
+
+accessible field net/minecraft/world/item/DiggerItem attackDamageBaseline F
+mutable field net/minecraft/world/item/DiggerItem attackDamageBaseline F
+
+accessible field net/minecraft/world/item/SwordItem attackDamage F
+mutable field net/minecraft/world/item/SwordItem attackDamage F
+
+accessible field net/minecraft/world/item/Tiers damage F
+mutable field net/minecraft/world/item/Tiers damage F
