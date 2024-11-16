@@ -20,3 +20,9 @@ mutable field net/minecraft/world/item/ArmorItem defaultModifiers Lcom/google/co
 accessible field net/minecraft/world/item/ArmorMaterials slotProtections [I
 
 accessible field net/minecraft/world/item/ArmorItem ARMOR_MODIFIER_UUID_PER_SLOT [Ljava/util/UUID;
+
+accessible field net/minecraft/world/item/Tiers speed F
+mutable field net/minecraft/world/item/Tiers speed F
+
+accessible field net/minecraft/world/item/DiggerItem speed F
+mutable field net/minecraft/world/item/DiggerItem speed F

@@ -23,7 +23,7 @@ public class ModConfig {
         public static ForgeConfigSpec.IntValue IRON_BOOTS_DEFENSE;
 
         public static ForgeConfigSpec.IntValue IRON_TIER_DURABILITY;//normally 250
-
+        public static ForgeConfigSpec.DoubleValue IRON_TIER_SPEED;
 
         public static ForgeConfigSpec.IntValue GOLD_ARMOR_DURABILITY_MULTIPLIER;//normally 7
         public static ForgeConfigSpec.IntValue GOLD_HELMET_DEFENSE;//new int[]{1, 3, 5, 2}
@@ -32,6 +32,7 @@ public class ModConfig {
         public static ForgeConfigSpec.IntValue GOLD_BOOTS_DEFENSE;
 
         public static ForgeConfigSpec.IntValue GOLD_TIER_DURABILITY;//normally 33
+        public static ForgeConfigSpec.DoubleValue GOLD_TIER_SPEED;
 
 
 
@@ -59,9 +60,11 @@ public class ModConfig {
             builder.push("tools");
             builder.push("iron");
             IRON_TIER_DURABILITY = builder.defineInRange("tier_durability",200,1,100000);
+            IRON_TIER_SPEED = builder.defineInRange("tier_speed",5.5,0,10000);
             builder.pop();
             builder.push("gold");
             GOLD_TIER_DURABILITY = builder.defineInRange("tier_durability",300,1,100000);
+            GOLD_TIER_SPEED = builder.defineInRange("tier_speed",7.,0,10000);
             builder.pop();
             builder.pop();
         }

@@ -2,8 +2,6 @@ package tfar.materialconfigps1;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -46,8 +44,8 @@ public class MaterialConfigPS1 {
                 ModConfig.Server.IRON_BOOTS_DEFENSE.get(),ModConfig.Server.IRON_LEGGINGS_DEFENSE.get(),
                 ModConfig.Server.IRON_CHESTPLATE_DEFENSE.get(), ModConfig.Server.IRON_HELMET_DEFENSE.get());
 
-        configureTier(Tiers.IRON,ModConfig.Server.IRON_TIER_DURABILITY.get(),(AxeItem) Items.IRON_AXE,(HoeItem) Items.IRON_HOE,(PickaxeItem) Items.IRON_PICKAXE,(ShovelItem) Items.IRON_SHOVEL,(SwordItem) Items.IRON_SWORD,2);
-        configureTier(Tiers.GOLD,ModConfig.Server.GOLD_TIER_DURABILITY.get(),(AxeItem) Items.GOLDEN_AXE,(HoeItem) Items.GOLDEN_HOE,(PickaxeItem) Items.GOLDEN_PICKAXE,(ShovelItem) Items.GOLDEN_SHOVEL,(SwordItem) Items.GOLDEN_SWORD,2);
+        configureTier(Tiers.IRON,ModConfig.Server.IRON_TIER_DURABILITY.get(),(float) (double)ModConfig.Server.IRON_TIER_SPEED.get(),(AxeItem) Items.IRON_AXE,(HoeItem) Items.IRON_HOE,(PickaxeItem) Items.IRON_PICKAXE,(ShovelItem) Items.IRON_SHOVEL,(SwordItem) Items.IRON_SWORD);
+        configureTier(Tiers.GOLD,ModConfig.Server.GOLD_TIER_DURABILITY.get(),(float) (double)ModConfig.Server.GOLD_TIER_SPEED.get(),(AxeItem) Items.GOLDEN_AXE,(HoeItem) Items.GOLDEN_HOE,(PickaxeItem) Items.GOLDEN_PICKAXE,(ShovelItem) Items.GOLDEN_SHOVEL,(SwordItem) Items.GOLDEN_SWORD);
 
         Tiers.GOLD.level = 3;
         Tiers.DIAMOND.level = 4;
@@ -81,11 +79,11 @@ public class MaterialConfigPS1 {
         armorItem.defaultModifiers = multimap;
     }
 
-    static void configureTier(Tiers tiers,int durability, AxeItem axe,HoeItem hoe,PickaxeItem pickaxe,ShovelItem shovel,
-                              SwordItem sword,int level
+    static void configureTier(Tiers tiers,int durability,float speed, AxeItem axe,HoeItem hoe,PickaxeItem pickaxe,ShovelItem shovel,
+                              SwordItem sword
                               ) {
         tiers.uses = axe.maxDamage = hoe.maxDamage = pickaxe.maxDamage = shovel.maxDamage = sword.maxDamage = durability;
-        tiers.level = level;
+        tiers.speed = axe.speed = hoe.speed = pickaxe.speed = shovel.speed = speed;
     }
 
 }
